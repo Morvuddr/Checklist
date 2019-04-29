@@ -16,6 +16,8 @@ class ChecklistViewController: UIViewController {
         super.viewDidLoad()
         
         configureChecklistTableView()
+        ChecklistFunctions.readChecklist()
+        checklistTableView.reloadData()
         
     }
     

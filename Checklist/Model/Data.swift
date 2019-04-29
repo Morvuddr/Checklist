@@ -7,9 +7,11 @@
 //
 
 import Foundation
+import CoreData
 
 class Data {
     
     static var checklistItems = [ChecklistItem]()
+    static var checklistItemsCoreData = [NSManagedObject]()
     
 }
