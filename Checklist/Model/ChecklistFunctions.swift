@@ -18,8 +18,9 @@ class ChecklistFunctions {
         
     }
     
-    static func updateChecklistItem(at index: Int, title: String){
+    static func updateChecklistItem(at index: Int, title: String, additionalInfo: String){
         Data.checklistItems[index].title = title
+        Data.checklistItems[index].additionalInfo = additionalInfo
     }
     
     static func deleteChecklistItem(at index: Int){

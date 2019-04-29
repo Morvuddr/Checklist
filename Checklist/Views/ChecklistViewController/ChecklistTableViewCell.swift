@@ -12,9 +12,15 @@ class ChecklistTableViewCell: UITableViewCell {
 
     @IBOutlet weak var checklistTitle: UILabel!
     @IBOutlet weak var checkmark: UILabel!
+    @IBOutlet weak var checklistAdditionalInfo: UILabel!
+    @IBOutlet weak var checklistDate: UILabel!
     
     func setup(_ checklistItem: ChecklistItem){
         checklistTitle.text = checklistItem.title
+        checklistDate.text = checklistItem.date
+        if let additionalInfo = checklistItem.additionalInfo {
+            checklistAdditionalInfo.text = additionalInfo
+        }
         if checklistItem.checked {
             checkmark.text = "✔︎"
         } else {

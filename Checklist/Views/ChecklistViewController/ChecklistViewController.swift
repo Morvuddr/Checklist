@@ -24,6 +24,9 @@ class ChecklistViewController: UIViewController {
         checklistTableView.delegate = self
         checklistTableView.dataSource = self
         
+        checklistTableView.rowHeight = UITableView.automaticDimension
+        checklistTableView.estimatedRowHeight = 100
+        
     }
     
     func showAddNewItemTableViewController(_ itemToEdit: ChecklistItem? = nil){

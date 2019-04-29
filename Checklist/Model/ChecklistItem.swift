@@ -11,11 +11,17 @@ import Foundation
 class ChecklistItem: NSObject {
     
     var title: String
+    var date: String
+    var additionalInfo: String?
     var checked: Bool
     
-    init(_ title: String) {
+    
+    init(_ title: String, _ date: String, _ additionalInfo: String? = nil) {
         self.title = title
+        self.date = date
+        self.additionalInfo = additionalInfo
         self.checked = false
+        
     }
     
 }

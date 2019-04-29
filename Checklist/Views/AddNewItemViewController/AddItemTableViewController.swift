@@ -19,6 +19,8 @@ class AddItemTableViewController: UITableViewController {
     
     
     @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var additionalInfoTextView: UITextView!
+    @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var doneBarItem: UIBarButtonItem!
     
     var itemToEdit: ChecklistItem?
@@ -28,11 +30,18 @@ class AddItemTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        tableView.rowHeight = UITableView.automaticDimension
+//        tableView.estimatedRowHeight = 75
+        
         // Do any additional setup after loading the view.
         if let item = itemToEdit {
             title = "Edit Item"
             titleTextField.text = item.title
+            additionalInfoTextView.text = item.additionalInfo
+            dateLabel.text = item.date
             doneBarItem.isEnabled = true
+        } else {
+            dateLabel.text = createDate()
         }
     }
     
@@ -47,24 +56,35 @@ class AddItemTableViewController: UITableViewController {
     @IBAction func done() {
         if let itemToEdit = itemToEdit {
             let index = Data.checklistItems.firstIndex(of: itemToEdit)!
-            ChecklistFunctions.updateChecklistItem(at: index, title: titleTextField.text!)
+            ChecklistFunctions.updateChecklistItem(at: index, title: titleTextField.text!,additionalInfo: additionalInfoTextView.text)
             delegate?.addItemTableViewController(self, didFinishEditing: itemToEdit)
             
         } else {
-            let item = ChecklistItem(titleTextField.text!)
+            let item = ChecklistItem(titleTextField.text!, dateLabel.text!, additionalInfoTextView.text)
             delegate?.addItemTableViewController(self, didFinishAdding: item)
         }
     }
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    func createDate() -> String {
+        // get the current date and time
+        let currentDateTime = Date()
+        
+        // initialize the date formatter and set the style
+        let formatter = DateFormatter()
+        formatter.timeStyle = .medium
+        formatter.dateStyle = .long
+        
+        // get the date time String from the date object
+        return formatter.string(from: currentDateTime) // October 8, 2016 at 10:48:53 PM
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    override func tableView(_ tableView: UITableView,
+                            estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 75
+    }
     
 }
 
@@ -76,7 +96,28 @@ extension AddItemTableViewController: UITextFieldDelegate {
         let oldText = textField.text!
         let stringRange = Range(range, in:oldText)!
         let newText = oldText.replacingCharacters(in: stringRange, with: string)
-        if newText.isEmpty {
+        if newText.isEmpty || newText.count > 100 || additionalInfoTextView.text.isEmpty {
+            doneBarItem.isEnabled = false
+        } else {
+            doneBarItem.isEnabled = true
+        }
+        return true
+    }
+    
+}
+
+extension AddItemTableViewController: UITextViewDelegate {
+    
+    func textViewDidChange(_ textView: UITextView) {
+        tableView.beginUpdates()
+        tableView.endUpdates()
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let oldText = textView.text!
+        let stringRange = Range(range, in:oldText)!
+        let newText = oldText.replacingCharacters(in: stringRange, with: text)
+        if newText.isEmpty || newText.count > 1000 || titleTextField.text?.isEmpty ?? true {
             doneBarItem.isEnabled = false
         } else {
             doneBarItem.isEnabled = true
