@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Add Item-->
+        <!--Добавить задачу-->
         <scene sceneID="9LO-vl-4Kk">
             <objects>
                 <tableViewController id="wLN-az-CmF" customClass="AddItemTableViewController" customModule="Checklist" customModuleProvider="target" sceneMemberID="viewController">
@@ -27,7 +27,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name of the Item" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="n9R-v0-gLo">
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Название задачи" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="n9R-v0-gLo">
                                                     <rect key="frame" x="16" y="11" width="343" height="22"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -47,7 +47,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Date of creation" id="Ei7-Mx-0sX">
+                            <tableViewSection headerTitle="Дата создания" id="Ei7-Mx-0sX">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="hr6-jt-aRK">
                                         <rect key="frame" x="0.0" y="135" width="375" height="44"/>
@@ -82,7 +82,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="74.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xsn-dA-EBH">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Описание" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xsn-dA-EBH">
                                                     <rect key="frame" x="16" y="11" width="343" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="mMi-eP-t7v"/>
@@ -123,14 +123,14 @@
                             <outlet property="delegate" destination="wLN-az-CmF" id="di0-R8-Lw6"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Add Item" largeTitleDisplayMode="never" id="5oB-Zc-1lF">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="DDa-Ba-Rj0">
+                    <navigationItem key="navigationItem" title="Добавить задачу" largeTitleDisplayMode="never" id="5oB-Zc-1lF">
+                        <barButtonItem key="leftBarButtonItem" title="Отмена" id="DDa-Ba-Rj0">
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="cancel:" destination="wLN-az-CmF" id="ShN-5K-Vwc"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="done" id="Pyh-oW-Bhp">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Готово" id="Pyh-oW-Bhp">
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="done" destination="wLN-az-CmF" id="f0X-JY-qla"/>

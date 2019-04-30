@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Checklist-->
+        <!--Список задач-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ChecklistViewController" customModule="Checklist" customModuleProvider="target" sceneMemberID="viewController">
@@ -104,7 +104,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Checklist" id="zqB-xx-UYl">
+                    <navigationItem key="navigationItem" title="Список задач" id="zqB-xx-UYl">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="47B-cI-7xJ">
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>

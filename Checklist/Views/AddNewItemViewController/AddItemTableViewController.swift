@@ -30,12 +30,9 @@ class AddItemTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        tableView.rowHeight = UITableView.automaticDimension
-//        tableView.estimatedRowHeight = 75
-        
         // Do any additional setup after loading the view.
         if let item = itemToEdit {
-            title = "Edit Item"
+            title = "Подробно"
             titleTextField.text = item.title
             additionalInfoTextView.text = item.additionalInfo
             dateLabel.text = item.date
@@ -73,9 +70,10 @@ class AddItemTableViewController: UITableViewController {
         let formatter = DateFormatter()
         formatter.timeStyle = .medium
         formatter.dateStyle = .long
+        formatter.locale = Locale(identifier: "ru_RU")
         
         // get the date time String from the date object
-        return formatter.string(from: currentDateTime) // October 8, 2016 at 10:48:53 PM
+        return formatter.string(from: currentDateTime)
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -93,15 +91,16 @@ extension AddItemTableViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField,
                    shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
+        let maxLength = 100
         let oldText = textField.text!
         let stringRange = Range(range, in:oldText)!
         let newText = oldText.replacingCharacters(in: stringRange, with: string)
-        if newText.isEmpty || newText.count > 100 || additionalInfoTextView.text.isEmpty {
+        if newText.isEmpty || additionalInfoTextView.text.isEmpty {
             doneBarItem.isEnabled = false
         } else {
             doneBarItem.isEnabled = true
         }
-        return true
+        return newText.count <= maxLength
     }
     
 }
@@ -114,15 +113,16 @@ extension AddItemTableViewController: UITextViewDelegate {
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let maxLength = 1000
         let oldText = textView.text!
         let stringRange = Range(range, in:oldText)!
         let newText = oldText.replacingCharacters(in: stringRange, with: text)
-        if newText.isEmpty || newText.count > 1000 || titleTextField.text?.isEmpty ?? true {
+        if newText.isEmpty || titleTextField.text?.isEmpty ?? true {
             doneBarItem.isEnabled = false
         } else {
             doneBarItem.isEnabled = true
         }
-        return true
+        return newText.count <= maxLength
     }
     
 }
