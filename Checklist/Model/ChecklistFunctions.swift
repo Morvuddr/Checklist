@@ -36,13 +36,13 @@ class ChecklistFunctions {
         
         do {
             try managedContext.save()
-            Data.checklistItems.append(checklistItem)
+            Data.checklistItems.insert(checklistItem, at: 0)
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
     }
     
-    static func readChecklist(){
+    static func readChecklist(completion: @escaping () -> ()){
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
@@ -50,54 +50,83 @@ class ChecklistFunctions {
         
         let managedContext = appDelegate.persistentContainer.viewContext
         
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Checklist")
-        
-        do {
-            Data.checklistItemsCoreData = try managedContext.fetch(fetchRequest)
-            for checklistItemCore in Data.checklistItemsCoreData {
-                let title = checklistItemCore.value(forKeyPath: "title") as? String
-                let date = checklistItemCore.value(forKeyPath: "date") as? String
-                let additionalInfo = checklistItemCore.value(forKeyPath: "additionalInfo") as? String
-                let checked = checklistItemCore.value(forKeyPath: "checked") as? Bool
-                let checklistItem = ChecklistItem(title ?? "Ошибка",date ?? "Ошибка",additionalInfo ?? "Ошибка",checked ?? true)
-                Data.checklistItems.append(checklistItem)
+        DispatchQueue.global(qos: .userInteractive).async{
+            
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Checklist")
+            
+            do {
+                Data.checklistItemsCoreData = try managedContext.fetch(fetchRequest)
+                for checklistItemCore in Data.checklistItemsCoreData {
+                    let title = checklistItemCore.value(forKeyPath: "title") as? String
+                    let date = checklistItemCore.value(forKeyPath: "date") as? String
+                    let additionalInfo = checklistItemCore.value(forKeyPath: "additionalInfo") as? String
+                    let checked = checklistItemCore.value(forKeyPath: "checked") as? Bool
+                    let checklistItem = ChecklistItem(title ?? "Ошибка",date ?? "Ошибка",additionalInfo ?? "Ошибка",checked ?? true)
+                    Data.checklistItems.append(checklistItem)
+                }
+            } catch let error as NSError {
+                print("Could not fetch. \(error), \(error.userInfo)")
             }
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
+            
+            DispatchQueue.main.async {
+                
+                completion()
+                
+            }
+            
         }
+        
+        
         
     }
     
     static func updateChecklistItem(at index: Int, title: String, additionalInfo: String){
         
+        Data.checklistItems[index].title = title
+        Data.checklistItems[index].additionalInfo = additionalInfo
+        
+    }
+    
+    static func updateChecklistItemsDB(){
+        
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
         
         let managedContext = appDelegate.persistentContainer.viewContext
         
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Checklist")
-        
-        do {
+        DispatchQueue.global(qos: .background).async {
             
-            Data.checklistItemsCoreData = try managedContext.fetch(fetchRequest)
-            let checklistItemUpdate = Data.checklistItemsCoreData[index]
-            checklistItemUpdate.setValue(title, forKeyPath: "title")
-            checklistItemUpdate.setValue(additionalInfo, forKeyPath: "additionalInfo")
             
-            do{
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Checklist")
+            
+            do {
                 
-                try managedContext.save()
-                Data.checklistItems[index].title = title
-                Data.checklistItems[index].additionalInfo = additionalInfo
+                Data.checklistItemsCoreData = try managedContext.fetch(fetchRequest)
+                for index in 0..<Data.checklistItems.count{
+                    let checklistItemUpdate = Data.checklistItemsCoreData[index]
+                    checklistItemUpdate.setValue(Data.checklistItems[index].title, forKeyPath: "title")
+                    checklistItemUpdate.setValue(Data.checklistItems[index].date, forKey: "date")
+                    checklistItemUpdate.setValue(Data.checklistItems[index].additionalInfo, forKeyPath: "additionalInfo")
+                    checklistItemUpdate.setValue(Data.checklistItems[index].checked, forKey: "checked")
+                }
+                
+                
+                do{
+                    
+                    try managedContext.save()
+                    
+                    
+                } catch let error as NSError {
+                    print("Could not save. \(error), \(error.userInfo)")
+                }
                 
             } catch let error as NSError {
-                print("Could not save. \(error), \(error.userInfo)")
+                print("Could not fetch. \(error), \(error.userInfo)")
             }
-            
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
         }
+            
+        
         
     }
     
@@ -129,6 +158,18 @@ class ChecklistFunctions {
             
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+    }
+    
+    static func sortChecklistItems(){
+        
+        Data.checklistItems.sort(){
+            $0.date > $1.date
+        }
+        
+        Data.checklistItems.sort() {
+            !$0.checked && $1.checked
         }
         
     }

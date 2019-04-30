@@ -16,8 +16,9 @@ class ChecklistViewController: UIViewController {
         super.viewDidLoad()
         
         configureChecklistTableView()
-        ChecklistFunctions.readChecklist()
-        checklistTableView.reloadData()
+        ChecklistFunctions.readChecklist(){
+            self.checklistTableView.reloadData()
+        }
         
     }
     
@@ -98,11 +99,10 @@ extension ChecklistViewController: AddItemTableViewControllerDelegate {
     func addItemTableViewController(_ controller: AddItemTableViewController,
                                     didFinishAdding item: ChecklistItem) {
         
-        let newRowIndex = Data.checklistItems.count
         ChecklistFunctions.createChecklistItem(item)
-        let indexPath = IndexPath(row: newRowIndex, section: 0)
-        let indexPaths = [indexPath]
-        checklistTableView.insertRows(at: indexPaths, with: .automatic)
+        checklistTableView.beginUpdates()
+        checklistTableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
+        checklistTableView.endUpdates()
         
         navigationController?.popViewController(animated:true)
     }
