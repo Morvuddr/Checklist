@@ -41,6 +41,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="✔︎" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l1c-Jk-gJH">
                                                     <rect key="frame" x="10" y="0.0" width="18" height="99.5"/>
                                                     <constraints>
+                                                        <constraint firstAttribute="height" constant="99.5" id="Ldz-eu-EMC"/>
                                                         <constraint firstAttribute="width" constant="18" id="ebK-I3-Sej"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="22"/>

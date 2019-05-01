@@ -17,8 +17,11 @@ class ChecklistViewController: UIViewController {
         
         configureChecklistTableView()
         ChecklistFunctions.readChecklist(){
+            ChecklistFunctions.sortChecklistItems()
             self.checklistTableView.reloadData()
         }
+        
+        ChecklistFunctions.startTimer()
         
     }
     
@@ -69,8 +72,7 @@ extension ChecklistViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         ChecklistFunctions.deleteChecklistItem(at: indexPath.row)
-        let indexPaths = [indexPath]
-        checklistTableView.deleteRows(at: indexPaths, with: .automatic)
+        checklistTableView.deleteRows(at: [indexPath], with: .automatic)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

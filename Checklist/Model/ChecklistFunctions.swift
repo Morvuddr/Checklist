@@ -178,4 +178,16 @@ class ChecklistFunctions {
         Data.checklistItems[index].checked = !Data.checklistItems[index].checked
     }
     
+    // MARK: - Data update every 30 seconds
+    
+    static func startTimer(){
+        _ = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { (Timer) in
+            
+            sortChecklistItems()
+            updateChecklistItemsDB()
+            
+        }
+    }
+    
+    
 }
